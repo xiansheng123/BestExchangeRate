@@ -3,9 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.MoneyInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import sun.awt.SunHints;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/CN")
