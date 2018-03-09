@@ -18,5 +18,6 @@ public class SGToCNY {
                 add (new MoneyInfo ("CompanyOfZou", "4.89"));
             }
         };
+
     }
 }
