@@ -1,16 +1,17 @@
 package com.example.demo.controller;
 
 import com.example.demo.MoneyInfo;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
-@RequestMapping("/CN")
+@RestController
+@RequestMapping("/cn")
 public class SGToCNY {
-    @RequestMapping(value = "GetAll")
+    @GetMapping(value = "/getAll")
     public List<MoneyInfo> getAll() {
         return  new ArrayList<MoneyInfo> () {
             {
@@ -18,6 +19,5 @@ public class SGToCNY {
                 add (new MoneyInfo ("CompanyOfZou", "4.89"));
             }
         };
-
     }
 }
