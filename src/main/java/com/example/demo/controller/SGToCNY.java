@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cn")
+@RequestMapping("/sgdToCn")
 public class SGToCNY {
     @GetMapping(value = "/getAll")
     public List<MoneyInfo> getAll() {
