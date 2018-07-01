@@ -1,2 +1,2 @@
 # BestExchangeRate
-you can the best CNY exchange rate in chinatown
+you can get the best CNY exchange rate in chinatown
