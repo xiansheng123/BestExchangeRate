@@ -22,7 +22,7 @@ public class ClientHttp {
         try {
             Document doc = Jsoup.connect ("http://www.hanshanmoney.com/zh-cn/ratecn/").get ();
             Elements links = doc.select ("font[color*=\"#000080\"]");
-            moneyInfo.setRate (links.first ().childNode (0).toString ());
+            moneyInfo.setRate (links.get (1).childNode (0).toString ());
         } catch (IOException e) {
             log.error (e.getMessage ());
             e.printStackTrace ();

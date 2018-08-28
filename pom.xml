@@ -52,13 +52,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>com.mks.api</groupId>-->
-            <!--<artifactId>mksapi-jar</artifactId>-->
-            <!--<version>4.10.9049</version>-->
-        <!--</dependency>-->
-
-        <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
