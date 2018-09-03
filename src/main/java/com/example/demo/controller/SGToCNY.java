@@ -1,11 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.MoneyInfo;
+import com.example.demo.Dto.MoneyInfo;
 import com.example.demo.service.ClientHttp;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;

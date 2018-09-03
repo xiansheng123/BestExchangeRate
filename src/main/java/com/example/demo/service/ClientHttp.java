@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.MoneyInfo;
+import com.example.demo.Dto.MoneyInfo;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.jsoup.Jsoup;

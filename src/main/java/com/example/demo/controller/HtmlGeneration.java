@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class HtmlGeneration {
 
-    @GetMapping//(value = "/test")
+    @GetMapping
     public String getIndex() {
       return "page1";
     }
+
     @GetMapping("/page2")
     public String page2() {
         return "page2";
