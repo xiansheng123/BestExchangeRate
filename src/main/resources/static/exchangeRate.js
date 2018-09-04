@@ -1,9 +1,10 @@
-angular.module('demo', [])
-    .controller('Hello', function($scope, $http)
+angular.module("demo", [])
+    .controller("exchangeRate", function($scope, $http)
     {
-        $http.get('/sgdToCn/getAll').
+        $http.get('http://localhost:8080/sgdToCn/getAll').
         then(function(response) {
-
-            $scope.greeting = response.data;
+            $scope.moneyInfo = response.data;
+        },function(err) {
+            console.error("Error occured: ", err);
         });
     });

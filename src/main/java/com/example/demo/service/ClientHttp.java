@@ -19,6 +19,7 @@ public class ClientHttp {
     public MoneyInfo convertHanShengToMoneyInfo() {
         MoneyInfo moneyInfo = new MoneyInfo ();
         moneyInfo.setCompany ("HanSheng");
+        moneyInfo.setLocation ("People's Park Complex 1 Park Road #02-K87/88 S(059108)");
         try {
             Document doc = Jsoup.connect ("http://www.hanshanmoney.com/zh-cn/ratecn/").get ();
             Elements links = doc.select ("font[color*=\"#000080\"]");
@@ -33,6 +34,7 @@ public class ClientHttp {
     public MoneyInfo convertChangeChengToMoneyInfo() {
         MoneyInfo moneyInfo = new MoneyInfo ();
         moneyInfo.setCompany ("ChangCheng");
+        moneyInfo.setLocation ("1 Park Road # 02-K96 People’s Park Complex S(059108)");
         try {
             Document doc = Jsoup.connect ("http://www.zhongguoremittance.com/zh-hans/").get ();
             Elements links = doc.select ("div[class=\"rate\"]");

@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class MoneyInfo {
     private String company;
     private String rate;
+    private String location;
 }
