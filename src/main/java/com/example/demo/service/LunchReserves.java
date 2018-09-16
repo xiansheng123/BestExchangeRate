@@ -1,27 +1,40 @@
 package com.example.demo.service;
 
-import org.aopalliance.intercept.Joinpoint;
+import com.example.demo.Dto.LunchInfo;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.FileUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Service
-public class CheckArrary {
+@lombok.extern.slf4j.Slf4j
+public class LunchReserves {
 
-     public boolean checkList(List<String> sublist, List<String> parentList) {
+    private final ObjectMapper mapper = new ObjectMapper ();
+    private final String fileName = "lunchinfo.json";
 
-        if (!parentList.containsAll (sublist)) {
-            return false;
+    public List<LunchInfo> getLunchInfo() throws IOException {
+        List<LunchInfo> lunchInfoList;
+        try (FileInputStream fileInputStream = new FileInputStream (new ClassPathResource (fileName).getFile ())) {
+            lunchInfoList = mapper.readValue (fileInputStream,
+                    mapper.getTypeFactory ()
+                            .constructCollectionType (List.class, LunchInfo.class));
         }
-
-        Map<String, String> parent = parentList.stream ().collect (Collectors.toMap (x -> x, Function.identity ()));
-
-        String sub1 = sublist.stream ().map (parent::get).collect (Collectors.joining (","));
-        String sub2 = sublist.stream ().map (parent::get).sorted ().collect (Collectors.joining (","));
-        return sub1.equals (sub2);
+        log.info ("Get LunchInfo: " + lunchInfoList);
+        return lunchInfoList;
     }
+
+    public void saveLunchInfo(List<LunchInfo> lunchInfoList) throws IOException {
+        String jsonText = mapper.writeValueAsString (lunchInfoList);
+        log.info ("Save LunchInfo: " + jsonText);
+        FileUtils.writeStringToFile (new ClassPathResource (fileName).getFile (), jsonText, UTF_8);
+    }
+
 }

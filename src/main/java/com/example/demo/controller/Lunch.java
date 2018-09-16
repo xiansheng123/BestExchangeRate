@@ -1,28 +1,34 @@
 package com.example.demo.controller;
 
-import com.example.demo.Dto.MoneyInfo;
-import com.example.demo.service.ClientHttp;
+import com.example.demo.Dto.LunchInfo;
+import com.example.demo.service.LunchReserves;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.NonNull;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/sgdToCn")
+@RequestMapping("/lunch")
 @AllArgsConstructor
-public class SGToCNY {
+public class Lunch {
+    private LunchReserves lunchReserves;
 
-    private ClientHttp clientHttp;
+    @GetMapping(value = "/getLunch")
+    public List<LunchInfo> getLunch() throws IOException {
+        return lunchReserves.getLunchInfo ();
+    }
 
-    @GetMapping(value = "/getAll")
-    public List<MoneyInfo> getAll() {
-        return Arrays.asList (
-                clientHttp.convertHanShengToMoneyInfo (),
-                clientHttp.convertChangeChengToMoneyInfo ()
-        );
+    @PostMapping(value = "/saveLunch")
+    public ResponseEntity<String> getLunch(@NonNull @RequestBody List<LunchInfo> lunchInfo) throws IOException {
+        if (lunchInfo == null || lunchInfo.size () < 1) {
+            return ResponseEntity.badRequest ().body ("don't pass null entity");
+        }
+        lunchReserves.saveLunchInfo (lunchInfo);
+        return ResponseEntity.ok ("successfully!");
     }
 }
 
