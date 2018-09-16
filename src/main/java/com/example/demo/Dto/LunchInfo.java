@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class LunchInfo {
-    private Integer Id;
     private String name;
     private Boolean vegetarian;
     private Integer number;

@@ -11,6 +11,7 @@
     <table id="customerTable" class="table">
         <thead>
         <tr>
+            <th>No</th>
             <th>Name</th>
             <th>IsVegetarian</th>
             <th>Number</th>
@@ -20,44 +21,60 @@
         </thead>
         <tbody>
         <tr th:each="lunchInfo, rowStat: ${lunchInfo}">
+
+            <td th:text="${rowStat.index}+1"></td>
             <td th:text="${lunchInfo.name}"></td>
-            <td th:text="${lunchInfo.vegetarian}"></td>
+            <td th:text="${lunchInfo.vegetarian}? 'Y': 'N' "></td>
             <td th:text="${lunchInfo.number}"></td>
             <td th:text="${lunchInfo.mark}"></td>
             <td>
                 <form method="get">
-                    <a th:href="@{/deleteUser/{id}(id= ${lunchInfo.name})}" class="btn btn-danger">Delete</a>
+                    <a th:href="@{/deleteUser/{id}(id= ${lunchInfo.name})}" class="btn btn-danger btn-sm">Delete</a>
                 </form>
             </td>
         </tr>
         </tbody>
     </table>
+
+    <p ></p>
+    <form action="#" th:action="@{/addUser}" method="post" >
+        <table  th:object="${newUser}" class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>IsVegetarian</th>
+                <th>Number</th>
+                <th>Mark</th>
+                <th>New</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr >
+                <td><input type="text" th:field="*{name}" class="form-control input-sm"/></td>
+                <td >
+                    <select  th:field="*{vegetarian}"  class="form-control input-sm">
+                    <option th:value="false" th:text="N" >N</option>
+                    <option th:value="true" th:text="Y" >Y</option>
+                    </select>
+                </td>
+                <td><input type="number" th:field="*{number}" class="form-control input-sm" /></td>
+                <td><input type="text" th:field="*{mark}" class="form-control input-sm"/></td>
+
+                <td>
+                    <input type="submit" value="New" class="btn btn-success btn-sm"/>
+                </td>
+            </tr>
+
+
+            </tbody>
+        </table>
+    </form>
+
 </div>
 
 
 <th:block layout:fragment="scripts">
     <script type="text/javascript">
-        // $(function () {
-        //     // $("#js-content").html("From Javascript in page 2").slideToggle();
-        //
-        //     $("commit").click(function () {
-        //             var obj = {
-        //                 name: $("#userName").value,
-        //                 vegetarian: $("#userVeg").value,
-        //                 number: 1,
-        //                 mark: $("#userMark")
-        //             };
-        //             var data = JSON.stringify(obj);
-        //         $.ajax({
-        //             type: "POST",
-        //             url: url,
-        //             data: data,
-        //             success: success,
-        //             dataType: dataType
-        //         });
-        //         }
-        //     )
-        // });
-
+        console.log('%c welcome to the osca underground home! https://caplearning.cfapps.io/bestRate', 'background: #221; color: #6190e8');
     </script>
 </th:block>
