@@ -36,9 +36,9 @@
         </tbody>
     </table>
 
-    <p ></p>
-    <form action="#" th:action="@{/addUser}" method="post" >
-        <table  th:object="${newUser}" class="table">
+    <p></p>
+    <form action="#" th:action="@{/addUser}" method="post">
+        <table th:object="${newUser}" class="table">
             <thead>
             <tr>
                 <th>Name</th>
@@ -49,22 +49,21 @@
             </tr>
             </thead>
             <tbody>
-            <tr >
-                <td><input type="text" th:field="*{name}" class="form-control input-sm"/></td>
-                <td >
-                    <select  th:field="*{vegetarian}"  class="form-control input-sm">
-                    <option th:value="false" th:text="N" >N</option>
-                    <option th:value="true" th:text="Y" >Y</option>
+            <tr>
+                <td><input type="text" th:field="*{name}" id="newName" class="form-control input-sm"/></td>
+                <td>
+                    <select th:field="*{vegetarian}" class="form-control input-sm">
+                        <option th:value="false" th:text="N">N</option>
+                        <option th:value="true" th:text="Y">Y</option>
                     </select>
                 </td>
-                <td><input type="number" th:field="*{number}" class="form-control input-sm" /></td>
+                <td><input type="number" th:field="*{number}" class="form-control input-sm"/></td>
                 <td><input type="text" th:field="*{mark}" class="form-control input-sm"/></td>
 
                 <td>
-                    <input type="submit" value="New" class="btn btn-success btn-sm"/>
+                    <input id="addUser" type="submit" value="New" class="btn btn-success btn-sm" />
                 </td>
             </tr>
-
 
             </tbody>
         </table>
@@ -74,7 +73,9 @@
 
 
 <th:block layout:fragment="scripts">
+
     <script type="text/javascript">
         console.log('%c welcome to the osca underground home! https://caplearning.cfapps.io/bestRate', 'background: #221; color: #6190e8');
     </script>
+
 </th:block>

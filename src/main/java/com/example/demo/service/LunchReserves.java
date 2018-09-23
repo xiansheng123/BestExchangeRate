@@ -5,10 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -21,11 +21,13 @@ public class LunchReserves {
     private final String fileName = "lunchinfo.json";
 
     public List<LunchInfo> getLunchInfo() throws IOException {
-        List<LunchInfo> lunchInfoList;
+        List<LunchInfo> lunchInfoList = new ArrayList<> ();
         try (FileInputStream fileInputStream = new FileInputStream (new ClassPathResource (fileName).getFile ())) {
-            lunchInfoList = mapper.readValue (fileInputStream,
-                    mapper.getTypeFactory ()
-                            .constructCollectionType (List.class, LunchInfo.class));
+            if (fileInputStream.available () > 0) {
+                lunchInfoList = mapper.readValue (fileInputStream,
+                        mapper.getTypeFactory ()
+                                .constructCollectionType (List.class, LunchInfo.class));
+            }
         }
         log.info ("Get LunchInfo: " + lunchInfoList);
         return lunchInfoList;

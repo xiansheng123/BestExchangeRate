@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,8 +39,13 @@ public class HtmlGeneration {
     @PostMapping(value = "/addUser")
     public String addLunchByName(@ModelAttribute LunchInfo newlunchInfo) throws IOException {
         log.info ("add name is : ${}", newlunchInfo);
-        List<LunchInfo> lunchInfo = lunchReserves.getLunchInfo ();
-        List<LunchInfo> lunchList = lunchInfo.stream ().filter (x -> !newlunchInfo.getName ().equals (x.getName ())).collect (Collectors.toList ());
+        if (newlunchInfo == null || StringUtils.isEmptyOrWhitespace (newlunchInfo.getName ())) {
+            return "redirect:/";
+        }
+
+        List<LunchInfo> lunchList = lunchReserves.getLunchInfo ().stream ()
+                .filter (x -> !newlunchInfo.getName ().equals (x.getName ()))
+                .collect (Collectors.toList ());
         lunchList.add (newlunchInfo);
         lunchReserves.saveLunchInfo (lunchList);
         return "redirect:/";

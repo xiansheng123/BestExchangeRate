@@ -2,11 +2,15 @@ package com.example.demo.service;
 
 import com.example.demo.Dto.LunchInfo;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import static org.junit.Assert.*;
 
+@RunWith (MockitoJUnitRunner.class)
 public class LunchReservesTest {
     @Test
     public void saveLunchInfo() throws IOException {
@@ -31,9 +35,10 @@ public class LunchReservesTest {
     }
 
     @Test
-    public void getLunchInfo() throws IOException {
+    public void getLunchInfo_withData() throws IOException {
         LunchReserves lunchReserves = new LunchReserves ();
-        lunchReserves.getLunchInfo ();
+        assertNotNull (lunchReserves.getLunchInfo ());
     }
+
 
 }
