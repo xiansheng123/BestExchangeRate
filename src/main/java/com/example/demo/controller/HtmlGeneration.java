@@ -39,6 +39,7 @@ public class HtmlGeneration {
 
     @PostMapping("/authenticate")
     public String authenticateInfo(@ModelAttribute UserInfo user) throws IOException {
+        log.info ("authenticate: "+user);
         if (user == null || StringUtils.isEmptyOrWhitespace (user.getName ()) ||
                 StringUtils.isEmptyOrWhitespace (user.getPassword ())) {
             return "error";
@@ -50,7 +51,7 @@ public class HtmlGeneration {
             } else {
                 user.setPassword (ExistsUserInfo.getPassword ());
             }
-            log.info ("get the UserName and Password: " + user.toString ());
+            log.info ("after set the UserName and Password: " + user);
 
             login.saveUserInfo (user);
             return String.format ("redirect:/lunch/%s/%s", user.getName (), user.getPassword ());

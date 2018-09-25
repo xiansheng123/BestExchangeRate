@@ -29,6 +29,11 @@ public class Admin {
         return login.getAllUserList ();
     }
 
+    @GetMapping("/getalllunchinfo")
+    public List<LunchInfo> getAllLunchList() throws IOException {
+        return lunchReserves.getLunchInfo ();
+    }
+
     @GetMapping("/reset")
     public String Reset() throws IOException {
         List<LunchInfo> newLunchList = Arrays.asList (

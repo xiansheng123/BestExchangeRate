@@ -4,7 +4,6 @@
     <title>Sign In</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/cerulean/bootstrap.min.css"/>
-
     <style>
         body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -30,17 +29,18 @@
 <boy>
 
         <form class="form-narrow form-horizontal" action="#" method="post" th:action="@{/authenticate}">
+            <p>V2.0</p>
             <fieldset  th:object="${loginUser}" >
-                <legend>Please Sign In</legend>
+                <legend  style="font-weight: bold">Please Sign In</legend>
                 <div class="form-group">
-                    <label  class="col-lg-2 control-label">Name</label>
+                    <label  class="col-lg-2 control-label">Name:</label>
                     <div class="col-lg-10" >
                         <input type="text" class="form-control" id="inputName" th:field="*{name}" pattern="^[ A-Za-z]*$"
                                title="Invalid Name"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword" class="col-lg-10 control-label">Topic Name for Lunch and Learning</label>
+                    <label for="inputPassword" class="col-lg-10 control-label">Topic Name for Lunch and Learning:</label>
                     <div class="col-lg-10">
                         <input type="password" class="form-control" id="inputPassword" name="password"
                                th:field="*{password}"/>
