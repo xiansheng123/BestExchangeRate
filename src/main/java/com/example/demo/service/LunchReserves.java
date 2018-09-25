@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.Dto.LunchInfo;
+import com.example.demo.Dto.UserInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.ClassPathResource;
