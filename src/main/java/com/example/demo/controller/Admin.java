@@ -37,11 +37,11 @@ public class Admin {
     @GetMapping("/reset")
     public String Reset() throws IOException {
         List<LunchInfo> newLunchList = Arrays.asList (
-                LunchInfo.builder ().name ("xuda").number (1).vegetarian (false).mark ("normal").build (),
-                LunchInfo.builder ().name ("huajie").number (1).vegetarian (false).mark ("normal").build (),
-                LunchInfo.builder ().name ("zouxuan").number (1).vegetarian (false).mark ("normal").build (),
-                LunchInfo.builder ().name ("yuyang").number (1).vegetarian (false).mark ("normal").build (),
-                LunchInfo.builder ().name ("kexing").number (1).vegetarian (false).mark ("normal").build ()
+                LunchInfo.builder ().name ("xuda").number (1).vegetarian (false).mark ("osca").build (),
+                LunchInfo.builder ().name ("huajie").number (1).vegetarian (false).mark ("osca").build (),
+                LunchInfo.builder ().name ("zouxuan").number (1).vegetarian (false).mark ("osca").build (),
+                LunchInfo.builder ().name ("yuyang").number (1).vegetarian (false).mark ("osca").build (),
+                LunchInfo.builder ().name ("kexing").number (1).vegetarian (false).mark ("osca").build ()
         );
         lunchReserves.saveLunchInfo (newLunchList);
         return "success!";

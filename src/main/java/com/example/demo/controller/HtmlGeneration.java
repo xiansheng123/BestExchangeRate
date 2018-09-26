@@ -2,19 +2,15 @@ package com.example.demo.controller;
 
 import com.example.demo.Dto.LunchInfo;
 import com.example.demo.Dto.UserInfo;
-import com.example.demo.Dto.ValidationError;
 import com.example.demo.service.Login;
 import com.example.demo.service.LunchReserves;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.runners.Parameterized;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
-import sun.security.util.Password;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,7 +29,7 @@ public class HtmlGeneration {
 
     @GetMapping
     public String login(Model model) {
-        model.addAttribute ("loginUser", new UserInfo ());
+        model.addAttribute ("loginUser", new UserInfo() );
         return "login";
     }
 
@@ -85,7 +81,7 @@ public class HtmlGeneration {
     }
 
     @PostMapping(value = "/addUser")
-    public String addLunchByName(@ModelAttribute LunchInfo newlunchInfo) throws IOException {
+    public String updateLunchByName(@ModelAttribute LunchInfo newlunchInfo) throws IOException {
         log.info ("add name is : {}", newlunchInfo);
 
         if (newlunchInfo == null || StringUtils.isEmptyOrWhitespace (newlunchInfo.getName ())) {
@@ -95,7 +91,7 @@ public class HtmlGeneration {
         newlunchInfo.setNumber (1);
         String name = newlunchInfo.getName ();
         List<LunchInfo> lunchList = lunchReserves.getLunchInfo ().stream ()
-                .filter (x -> !newlunchInfo.getName ().equals (x.getName ()))
+                .filter (x -> !newlunchInfo.getName ().equalsIgnoreCase (x.getName ()))
                 .collect (Collectors.toList ());
         lunchList.add (newlunchInfo);
         lunchReserves.saveLunchInfo (lunchList);
