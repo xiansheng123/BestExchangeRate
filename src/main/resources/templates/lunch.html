@@ -16,6 +16,7 @@
             <th>IsVegetarian</th>
             <th>Number</th>
             <th>Mark</th>
+            <th>Date</th>
             <th>Delete</th>
         </tr>
         </thead>
@@ -27,6 +28,7 @@
             <td th:text="${lunchInfoDto.vegetarian}? 'Y': 'N' "></td>
             <td th:text="${lunchInfoDto.number}"></td>
             <td th:text="${lunchInfoDto.mark}"></td>
+            <td th:text="${#dates.format(lunchInfoDto.addedDate,'dd-MM-yyyy HH:mm')}"></td>
             <td>
                 <form method="get">
                     <th:block th:if="${lunchInfoDto.name}==${newUser.name}"><a

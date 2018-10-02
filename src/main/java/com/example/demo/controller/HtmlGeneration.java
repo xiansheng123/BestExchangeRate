@@ -7,6 +7,7 @@ import com.example.demo.service.Login;
 import com.example.demo.service.LunchReserves;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -87,7 +88,7 @@ public class HtmlGeneration {
         String name = newlunchInfoDto.getName ();
         LunchInfo lunchInfoByName = lunchReserves.getLunchInfoByName (name);
         lunchInfoByName.setNumber (1);
-        lunchInfoByName.setAddedDate (new Date ());
+        lunchInfoByName.setAddedDate ( DateUtils.addHours(new Date (), 8));
         lunchInfoByName.setVegetarian (newlunchInfoDto.getVegetarian ());
         lunchInfoByName.setMark (newlunchInfoDto.getMark ());
         lunchReserves.saveLunchInfo (lunchInfoByName);
