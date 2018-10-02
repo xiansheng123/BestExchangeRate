@@ -3,21 +3,14 @@ package com.example.demo.service;
 import com.example.demo.Dto.LunchInfoDto;
 import com.example.demo.Repository.LunchRepo;
 import com.example.demo.entity.LunchInfo;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.nashorn.internal.runtime.options.Option;
 import lombok.AllArgsConstructor;
-import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.util.PropertySource;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Service
 @lombok.extern.slf4j.Slf4j
@@ -27,9 +20,9 @@ public class LunchReserves {
 
     public List<LunchInfoDto> getAllLunchInfo() {
         List<LunchInfoDto> lunchInfoDtoList = lunchRepo.findAll ().stream ()
-                .map (x -> convertLunchInfoDto (x))
+                .map (this::convertLunchInfoDto)
+                .sorted (Comparator.comparing (LunchInfoDto::getVegetarian))
                 .collect (Collectors.toList ());
-        lunchInfoDtoList.sort (Comparator.comparing (x -> x.getVegetarian ()));
         log.info ("Get AllLunchInfoDto: " + lunchInfoDtoList);
         return lunchInfoDtoList;
     }
@@ -40,7 +33,9 @@ public class LunchReserves {
     }
 
     public void saveLunchInfo(List<LunchInfoDto> lunchInfoDtoList) {
-        List<LunchInfo> collect = lunchInfoDtoList.stream ().map (x -> convertLunchInfo (x)).collect (Collectors.toList ());
+        List<LunchInfo> collect = lunchInfoDtoList.stream ()
+                .map (this::convertLunchInfo)
+                .collect (Collectors.toList ());
         lunchRepo.saveAll (collect);
         log.info ("Save LunchInfoDtoList: " + lunchInfoDtoList);
     }
@@ -51,9 +46,7 @@ public class LunchReserves {
             return;
         }
         Optional<LunchInfo> lunchInfo = lunchRepo.findOneByName (name);
-        if (lunchInfo.isPresent ()) {
-            lunchRepo.delete (lunchInfo.get ());
-        }
+        lunchInfo.ifPresent (lunchInfo1 -> lunchRepo.delete (lunchInfo1));
         log.info ("Delete LunchInfoDto: " + lunchInfo);
     }
 

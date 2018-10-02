@@ -3,13 +3,11 @@ package com.example.demo.service;
 import com.example.demo.Dto.UserInfoDto;
 import com.example.demo.Repository.UserInfoRepo;
 import com.example.demo.entity.UserInfo;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -25,7 +23,7 @@ public class Login {
     public UserInfoDto getUserInfo(String name) {
 
         Optional<UserInfo> byId = userInfoRepo.findById (name);
-        return byId.map (x -> convertUserInfoDto (x)).orElse (new UserInfoDto ());
+        return byId.map (this::convertUserInfoDto).orElse (new UserInfoDto ());
     }
 
     public void saveUserInfo(UserInfoDto user) {
@@ -51,7 +49,7 @@ public class Login {
     public String getRandomString() {
         String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Random random = new Random ();
-        StringBuffer sb = new StringBuffer ();
+        StringBuilder sb = new StringBuilder ();
 
         for (int i = 0; i < 6; ++i) {
             sb.append (str.charAt (random.nextInt (62)));
