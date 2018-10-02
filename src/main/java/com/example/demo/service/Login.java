@@ -1,68 +1,51 @@
 package com.example.demo.service;
 
-import com.example.demo.Dto.UserInfo;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.example.demo.Dto.UserInfoDto;
+import com.example.demo.Repository.UserInfoRepo;
+import com.example.demo.entity.UserInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 @Service
 @Slf4j
+@AllArgsConstructor
 public class Login {
-    private final String userFile = "logininfo.json";
-    private final ObjectMapper mapper = new ObjectMapper ();
 
-    public UserInfo getUserInfo(String userName) throws IOException {
-        List<UserInfo> userInfoList = getAllUserList ();
-        return userInfoList.stream ().filter (x -> userName.equals (x.getName ())).findFirst ().orElse (new UserInfo ());
+    private UserInfoRepo userInfoRepo;
+
+    public UserInfoDto getUserInfo(String name) {
+
+        Optional<UserInfo> byId = userInfoRepo.findById (name);
+        return byId.map (x -> convertUserInfoDto (x)).orElse (new UserInfoDto ());
     }
 
-    public void saveUserInfo(UserInfo user) throws IOException {
-        List<UserInfo> collect = getAllUserList ().stream ().filter (x -> !x.getName ().equals (user.getName ())).collect (Collectors.toList ());
-        collect.add (user);
-        String jsonText = mapper.writeValueAsString (collect);
-        log.info ("all json user info :" + jsonText);
-        FileUtils.writeStringToFile (new ClassPathResource (userFile).getFile (), jsonText, UTF_8);
+    public void saveUserInfo(UserInfoDto user) {
+        UserInfo userInfo = convertUserInfo (user);
+        userInfoRepo.save (userInfo);
     }
 
-    public List<UserInfo> getAllUserList() throws IOException {
-        try (FileInputStream inputStream = new FileInputStream (new ClassPathResource (userFile).getFile ())) {
-            if (inputStream.available () > 0) {
-                List<UserInfo> userInfoList = mapper.readValue (inputStream, mapper.getTypeFactory ().constructCollectionType (List.class, UserInfo.class));
-                return userInfoList;
-            }
-        }
-        return Collections.EMPTY_LIST;
+    public List<UserInfoDto> getAllUserList() {
+        return userInfoRepo.findAll ().stream ().map (this::convertUserInfoDto).collect (Collectors.toList ());
     }
 
-    public boolean isValidUser(UserInfo user) {
-        try {
-            return getAllUserList ().stream ().anyMatch (x -> user.getName ().equals (x.getName ()) &&
-                    user.getPassword ().equals (x.getPassword ()));
-        } catch (IOException ex) {
-            log.info (ex.getMessage ());
+    public boolean isValidUser(UserInfoDto userInfoDto) {
+        String name = userInfoDto.getName ();
+        String password = userInfoDto.getPassword ();
+        if (StringUtils.isEmptyOrWhitespace (name) || StringUtils.isEmptyOrWhitespace (password)) {
             return false;
         }
-    }
-
-    public boolean isExistsUser(UserInfo user) {
-        try {
-            return getAllUserList ().stream ().anyMatch (x -> user.getName ().equals (x.getName ()));
-        } catch (IOException ex) {
-            log.info (ex.getMessage ());
-            return false;
-        }
+        Optional<UserInfo> one = userInfoRepo.findById (name);
+        return one.map (x ->
+                x.getPassword ().equals (password)).orElse (false);
     }
 
     public String getRandomString() {
@@ -74,5 +57,19 @@ public class Login {
             sb.append (str.charAt (random.nextInt (62)));
         }
         return sb.toString ();
+    }
+
+    private UserInfoDto convertUserInfoDto(UserInfo userInfo) {
+        return UserInfoDto.builder ()
+                .name (userInfo.getName ())
+                .password (userInfo.getPassword ())
+                .build ();
+    }
+
+    private UserInfo convertUserInfo(UserInfoDto userInfoDto) {
+        return UserInfo.builder ()
+                .name (userInfoDto.getName ())
+                .password (userInfoDto.getPassword ())
+                .build ();
     }
 }

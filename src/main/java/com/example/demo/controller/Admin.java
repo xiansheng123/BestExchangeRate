@@ -1,10 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.Dto.LunchInfo;
-import com.example.demo.Dto.UserInfo;
+import com.example.demo.Dto.LunchInfoDto;
+import com.example.demo.Dto.UserInfoDto;
+import com.example.demo.Repository.LunchRepo;
 import com.example.demo.service.Login;
 import com.example.demo.service.LunchReserves;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/xuda")
@@ -22,26 +22,29 @@ public class Admin {
 
     private final Login login;
     private final LunchReserves lunchReserves;
+    private final LunchRepo lunchRepo;
 
 
     @GetMapping("/getalluserinfo")
-    public List<UserInfo> getAllUserLoginList() throws IOException {
+    public List<UserInfoDto> getAllUserLoginList() throws IOException {
         return login.getAllUserList ();
     }
 
     @GetMapping("/getalllunchinfo")
-    public List<LunchInfo> getAllLunchList() throws IOException {
-        return lunchReserves.getLunchInfo ();
+    public Object getAllLunchList() throws IOException {
+        return lunchRepo.findAll ();
     }
 
     @GetMapping("/reset")
-    public String Reset() throws IOException {
-        List<LunchInfo> newLunchList = Arrays.asList (
-                LunchInfo.builder ().name ("xuda").number (1).vegetarian (false).mark ("osca").build (),
-                LunchInfo.builder ().name ("huajie").number (1).vegetarian (false).mark ("osca").build (),
-                LunchInfo.builder ().name ("zouxuan").number (1).vegetarian (false).mark ("osca").build (),
-                LunchInfo.builder ().name ("yuyang").number (1).vegetarian (false).mark ("osca").build (),
-                LunchInfo.builder ().name ("kexing").number (1).vegetarian (false).mark ("osca").build ()
+    public String Reset()  {
+        Date date = new Date ();
+        List<LunchInfoDto> newLunchList = Arrays.asList (
+
+                LunchInfoDto.builder ().name ("xuda").number (1).vegetarian (false).mark ("osca").addedDate (date).build (),
+                LunchInfoDto.builder ().name ("huajie").number (1).vegetarian (false).mark ("osca").addedDate (date).build (),
+                LunchInfoDto.builder ().name ("zouxuan").number (1).vegetarian (false).mark ("osca").addedDate (date).build (),
+                LunchInfoDto.builder ().name ("yuyang").number (1).vegetarian (false).mark ("osca").addedDate (date).build (),
+                LunchInfoDto.builder ().name ("kexing").number (1).vegetarian (false).mark ("osca").addedDate (date).build ()
         );
         lunchReserves.saveLunchInfo (newLunchList);
         return "success!";

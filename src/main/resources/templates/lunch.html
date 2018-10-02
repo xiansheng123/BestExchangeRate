@@ -20,17 +20,17 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="lunchInfo, rowStat: ${lunchInfo}">
+        <tr th:each="lunchInfoDto, rowStat: ${lunchInfoDto}">
 
             <td th:text="${rowStat.index}+1"></td>
-            <td th:text="${lunchInfo.name}"></td>
-            <td th:text="${lunchInfo.vegetarian}? 'Y': 'N' "></td>
-            <td th:text="${lunchInfo.number}"></td>
-            <td th:text="${lunchInfo.mark}"></td>
+            <td th:text="${lunchInfoDto.name}"></td>
+            <td th:text="${lunchInfoDto.vegetarian}? 'Y': 'N' "></td>
+            <td th:text="${lunchInfoDto.number}"></td>
+            <td th:text="${lunchInfoDto.mark}"></td>
             <td>
                 <form method="get">
-                    <th:block th:if="${lunchInfo.name}==${newUser.name}"><a
-                            th:href="@{'/deleteUser/'+ ${ lunchInfo.name}+'/?data='+ ${userSetting.password} }"
+                    <th:block th:if="${lunchInfoDto.name}==${newUser.name}"><a
+                            th:href="@{'/deleteUser/'+ ${ lunchInfoDto.name}+'/?data='+ ${userSetting.password} }"
                             class="btn btn-danger btn-sm">Delete</a></th:block>
                 </form>
             </td>
